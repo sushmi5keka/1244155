@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link href="bootstrap.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="login">
+                <fieldset>
+                  <legend>Enter your account</legend>
+                    <form method="get">
+                        <label>Email Address :</label>
+                        <input type="text" placeholder="Enter your email address"/>
+                
+                        <br/>
+                        <label>password :</label>
+                        <input type="password" name="password" pattern=".{6,}" 
+                                 title="six or more characters" placeholder="******"/>
+                 
+                        <br/>
+                        <input type="submit" value="Log in"/>
+                        <hr/><hr/><hr/>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    </body>
+</html>
