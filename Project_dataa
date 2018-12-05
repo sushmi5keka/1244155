@@ -1,0 +1,193 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.6.40-log
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema project
+--
+
+CREATE DATABASE IF NOT EXISTS project;
+USE project;
+
+--
+-- Definition of table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `category`
+--
+
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` (`id`,`name`) VALUES 
+ (1,'mobile'),
+ (2,'memorycard'),
+ (3,'powerBank');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+
+
+--
+-- Definition of table `purchase`
+--
+
+DROP TABLE IF EXISTS `purchase`;
+CREATE TABLE `purchase` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `productName` varchar(30) NOT NULL,
+  `productCode` varchar(30) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `unitprice` double NOT NULL,
+  `totalPrice` double NOT NULL,
+  `purchasedate` date NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cat_id` (`cat_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `category` (`id`),
+  CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase`
+--
+
+/*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
+INSERT INTO `purchase` (`id`,`productName`,`productCode`,`qty`,`unitprice`,`totalPrice`,`purchasedate`,`cat_id`,`user_id`) VALUES 
+ (1,'nokia','N1100',2,2000,4000,'2018-12-02',1,1),
+ (2,'nokia','N1100',3,2000,6000,'2018-12-02',1,1),
+ (3,'sumsang','SM4Gb',2,500,1000,'2018-12-02',2,1),
+ (4,'LG','LG001',4,1000,4000,'2018-12-02',3,1),
+ (5,'symohone','SY_W68',5,6000,30000,'2018-12-03',1,5),
+ (6,'symohone','SY_W68',2,6000,12000,'2018-12-03',1,5),
+ (7,'LG','LG001',5,1000,5000,'2018-12-04',3,5);
+/*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
+
+
+--
+-- Definition of table `sales`
+--
+
+DROP TABLE IF EXISTS `sales`;
+CREATE TABLE `sales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `productName` varchar(30) NOT NULL,
+  `productCode` varchar(30) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `unitprice` double NOT NULL,
+  `totalPrice` double NOT NULL,
+  `salesdate` date NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `purchase` (`id`),
+  CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales`
+--
+
+/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
+INSERT INTO `sales` (`id`,`productName`,`productCode`,`qty`,`unitprice`,`totalPrice`,`salesdate`,`product_id`,`user_id`) VALUES 
+ (1,'nokia','N1100',1,2200,2200,'2018-12-03',1,1),
+ (2,'LG','LG001',1,1100,1100,'2018-12-03',4,1),
+ (3,'LG','LG001',2,1100,2200,'2018-12-04',4,5);
+/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
+
+
+--
+-- Definition of table `summary`
+--
+
+DROP TABLE IF EXISTS `summary`;
+CREATE TABLE `summary` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `productName` varchar(50) NOT NULL,
+  `productCode` varchar(30) NOT NULL,
+  `totalQty` int(11) NOT NULL,
+  `soldQty` int(11) NOT NULL,
+  `availableQty` int(11) NOT NULL,
+  `lastUpdate` date DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `summary_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `purchase` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `summary`
+--
+
+/*!40000 ALTER TABLE `summary` DISABLE KEYS */;
+INSERT INTO `summary` (`id`,`productName`,`productCode`,`totalQty`,`soldQty`,`availableQty`,`lastUpdate`,`product_id`) VALUES 
+ (1,'nokia','N1100',5,2,3,'2018-12-03',1),
+ (2,'sumsang','SM4Gb',2,0,2,'2018-12-02',3),
+ (3,'LG','LG001',9,3,6,'2018-12-04',4),
+ (4,'symohone','SY_W68',7,0,7,'2018-12-03',5);
+/*!40000 ALTER TABLE `summary` ENABLE KEYS */;
+
+
+--
+-- Definition of table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `userType` varchar(30) NOT NULL,
+  `firstName` varchar(30) DEFAULT NULL,
+  `lastName` varchar(30) DEFAULT NULL,
+  `email` varchar(30) NOT NULL,
+  `mobile` varchar(30) NOT NULL,
+  `regiDate` date DEFAULT NULL,
+  `status` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`,`username`,`password`,`userType`,`firstName`,`lastName`,`email`,`mobile`,`regiDate`,`status`) VALUES 
+ (1,'Ria','456','Salesman','Mrs.','Ria','ria@gmail.com','01600000000','2018-12-02',0x01),
+ (2,'pia','456','Salesman','Mrs.','pia','pia@gmail.com','01800000000','2018-12-02',0x01),
+ (3,'tia','456','Salesman','Mrs.','Tia','tia@gmail.com','01100000000','2018-12-03',0x01),
+ (5,'Israt','123','admin','Israt','jahan','israt@gmail.com','01900000000','2018-12-03',0x01),
+ (6,'sushmi','123','admin','sushmi','keka','keka@gmail.com','01500000000','2018-12-03',0x01),
+ (7,'jia','456','salesman','Mr.','Jia','jia@gmail.com','01700000000','2018-12-04',0x01);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

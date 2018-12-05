@@ -186,6 +186,11 @@ public class PurchaseView extends javax.swing.JFrame {
         jLabel9.setText("Qty");
 
         txtQty.setText("0");
+        txtQty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQtyActionPerformed(evt);
+            }
+        });
         txtQty.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtQtyKeyPressed(evt);
@@ -236,23 +241,23 @@ public class PurchaseView extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabel10))
                         .addGap(24, 24, 24)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnClear)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPurchase)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblMsg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(cmbCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPName)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtPCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSearch))
-                            .addComponent(txtUnitPrice)
-                            .addComponent(txtQty)
-                            .addComponent(txtTotalPrice))))
-                .addContainerGap(85, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(btnClear)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnPurchase))
+                                .addComponent(cmbCategory, 0, 156, Short.MAX_VALUE)
+                                .addComponent(txtPName)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(txtPCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnSearch))
+                                .addComponent(txtUnitPrice)
+                                .addComponent(txtQty)
+                                .addComponent(txtTotalPrice)))))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,12 +291,12 @@ public class PurchaseView extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(txtTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPurchase)))
+                        .addGap(20, 20, 20)
+                        .addComponent(btnPurchase))
                     .addComponent(btnClear))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(234, 169, 114));
@@ -337,7 +342,7 @@ public class PurchaseView extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -474,13 +479,13 @@ public class PurchaseView extends javax.swing.JFrame {
 
     private void txtQtyKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyTyped
         // TODO add your handling code here:
-        int x = 0;
-        double y = 0;
+        double x = 0;
+        int y = 0;
         if (txtUnitPrice.getText().trim().length() < 1 || txtQty.getText().trim().length() < 1) {
             txtTotalPrice.setText(String.valueOf(x * y));
         } else {
-            x = Integer.parseInt(txtUnitPrice.getText());
-            y = Double.parseDouble(txtQty.getText());
+            x = Double.parseDouble(txtUnitPrice.getText());
+            y = Integer.parseInt(txtQty.getText());
             
             txtTotalPrice.setText(String.valueOf(x * y));
         }
@@ -515,9 +520,29 @@ public class PurchaseView extends javax.swing.JFrame {
 
     private void txtQtyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyPressed
         // TODO add your handling code here:
+        
+        try{int qty=0;
+        if(txtQty.getText().trim() !=""){
+            qty=Integer.parseInt(txtQty.getText().trim());
+        }else{
+            qty=0;
+        }
+        double unitPrice=0.0;
+        if(txtQty.getText().trim() !=""){
+            unitPrice=Double.parseDouble(txtUnitPrice.getText().trim());
+         }else{
+            unitPrice=0.0;
+        }
         double price = Double.parseDouble(txtUnitPrice.getText().trim()) * Integer.parseInt(txtQty.getText().trim());
         txtTotalPrice.setText(String.valueOf(price));
+        }catch(NumberFormatException ne){
+            
+        }
     }//GEN-LAST:event_txtQtyKeyPressed
+
+    private void txtQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQtyActionPerformed
 
     /**
      * @param args the command line arguments

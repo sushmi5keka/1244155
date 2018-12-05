@@ -45,14 +45,7 @@ public class MenuFormAdmin {
                 new SalesView().setVisible(true);
             }
         });
-        JMenuItem summary = new JMenuItem("Summary");
-        summary.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                f.setVisible(false);
-                new DashBoard().setVisible(true);
-            }
-        });
+       
         JMenuItem user = new JMenuItem("User");
         user.addActionListener(new ActionListener() {
             @Override
@@ -74,8 +67,6 @@ public class MenuFormAdmin {
         file.add(purchase);
         file.addSeparator();
         file.add(sales);
-        file.addSeparator();
-        file.add(summary);
         file.addSeparator();
         file.add(user);
         file.addSeparator();
